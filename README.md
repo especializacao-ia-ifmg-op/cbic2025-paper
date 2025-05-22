@@ -1,2 +1,2 @@
-# paper-cbic2025
+# cbic2025-paper
 Repository for datasets and scripts to CBIC2025 paper.
