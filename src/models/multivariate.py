@@ -101,16 +101,12 @@ def get_search_dataset_multivariate_for_var(dataset, n_var, vars, num_lags=4, n_
     df1 = pd.read_csv(dataset, sep=";")
     df1['Tamp'] = (df1['Tmax'] - df1['Tmin'])/2
     df1 = df1[vars]
-    #print(df1.head(3))
-    # scaler = StandardScaler()
-    # df1[vars] = scaler.fit_transform(df1[vars])
     
     ints = df1.select_dtypes(include=['int64','int32','int16']).columns
     df1[ints] = df1[ints].apply(pd.to_numeric, downcast='integer')
     floats = df1.select_dtypes(include=['float']).columns
     df1[floats] = df1[floats].apply(pd.to_numeric, downcast='float')
     
-    #series = df1.iloc[:, 1:n_var+1]
     series = df1
     norm_df = normalize(series)
 
@@ -230,7 +226,6 @@ def run_var_model(dataset_file_name, result_file_name, sufix, n_var, n_execucoes
 
     del df
     del tscv
-    #del results
     gc.collect()
 
 
@@ -262,7 +257,6 @@ def run_rf_model(dataset_file_name, result_file_name, sufix, n_execucoes, n_prev
     del X
     del y
     del tscv
-    #del results
     gc.collect()
 
 
@@ -293,11 +287,9 @@ def run_tcnn_model(dataset_file_name, result_file_name, sufix, star, n_var, vars
     
     results = form_data(results, sufix, n_execucoes, n_previsoes)
     results.to_csv(result_file_name, index=True)
-
-
+    
     del df
     del tscv
-    #del results
     gc.collect()
 
 
@@ -347,7 +339,6 @@ def run_tfts_model(dataset_file_name, result_file_name, sufix, n_execucoes, n_pr
     del learning_rate
     del num_epochs
     del batch_size
-    #del results
     del X
     del y
     del tscv
@@ -385,8 +376,7 @@ for prefix in prefixes:
         #vars = ['Rs', 'Tmax', 'Tmin', 'ETo']  # selected
         vars = ['Rs', 'Tmax', 'u2', 'ETo']  # selected
 
-    #models = ['VAR']#, 'RF', 'TCNN'] #, 'TFTS']
-    models = ['TCNN']
+    models = ['VAR', 'RF', 'TCNN']
 
     # Running the models
 
@@ -431,8 +421,6 @@ for prefix in prefixes:
                 if prefix == 'important':
                     aux = f'vars_'+str(vars)+'_results'
                     aux = aux.replace("'", "").replace("[", "").replace("]", "").replace(", ", "")
-                    #print(f'aux = {aux}')
-                    #print(f'result_path = {result_path}')
                     result_path = result_path.replace("vars_results", aux)
                 dataset_path = os.path.join(bases_path, dataset)
                 print(f'\n\nRunning {model_title} [from multivariate.py]: base = {dataset_path}\n.')
@@ -454,14 +442,3 @@ for prefix in prefixes:
                 minutos = int(segundos / 60)
                 horas = int(minutos / 60)
                 print(f'...done! Execution time = {int(int(int(stop - start) / 60) / 60)}h {int(int(stop - start) / 60)%60}m {int(stop - start)%60}s.')
-                # all_objects = gc.get_objects()
-                # print(f"Total objects in memory: {len(all_objects)}")
-                # gc.collect()
-                # all_objects = gc.get_objects()
-                # print(f"Total objects in memory: {len(all_objects)}")
-                #uncollected_objects = gc.garbage()
-                #if uncollected_objects:
-                #    print(f"Uncollected objects: {uncollected_objects}")
-                #else:
-                #    print("No uncollected objects found.")
-
