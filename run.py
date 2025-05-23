@@ -5,4 +5,4 @@ from pathlib import Path
 root = Path(__file__).resolve().parent / 'src'
 sys.path.insert(0, str(root))
 
-from models import multivariate  # multi_all_variables, multi_selected_variables
+from models import multivariate
