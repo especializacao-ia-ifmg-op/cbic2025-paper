@@ -14,3 +14,8 @@ Installing required Python packages:
 ```
 (venv)...> python -m pip install -r requirements.txt
 ```
+
+Running the main script:
+```
+(venv)...> python .\run.py
+```
